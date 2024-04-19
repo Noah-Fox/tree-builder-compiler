@@ -163,3 +163,19 @@ class BuildNodeStatement: public Statement {
         NumberExpression* weight;
         StringExpression* parent;
 };
+
+class NumberForStatement: public Statement {
+    public:
+        NumberForStatement(NumberVariable* n, NumberExpression* s, NumberExpression* e, CompoundStatement* l){
+            numVar = n;
+            startNum = s;
+            endNum = e;
+            loopStatement = l;
+        }
+
+    private:
+        NumberVariable* numVar;
+        NumberExpression* startNum;
+        NumberExpression* endNum;
+        CompoundStatement* loopStatement;
+};
