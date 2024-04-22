@@ -7,22 +7,18 @@
 #include <map>
 #include <string>
 #include "parse_tree.h"
+#include "tree_node.h"
 
 using namespace std;
 
 %}
 
-
-
-
-
-
 %union {
-  char* s_val;
-  integer_expression *int_ptr;
-  boolean_expression *bool_ptr;
-  statement *s_ptr;
-  compound_statement *c_ptr;
+  char* string_val;
+  NumberExpression *num_ptr;
+  StringExpression *string_ptr;
+  Statement *s_ptr;
+  CompoundStatement *c_ptr;
 }
 
 %{
@@ -34,57 +30,63 @@ extern void yyerror(char *String);
 
 %}
 
-%type <s_val> TKID TKINT
-%type <int_ptr> integer_expression
-%type <bool_ptr> boolean_expr
-%type <s_ptr> statement while_statement assignment_statement print_statement
-%type <c_ptr> prog start_var
+%type <string_val> TKSTRING TKVAR TKINT
+%type <num_ptr> number_expression
+%type <string_ptr> string_expression string_list
+%type <s_ptr> statement for_statement build_node_statement
+%type <c_ptr> prog start_var in_statement
+
 %%
 start_var : prog { // At this point, the 
                    // the program is done --- let's evaluate the
                    // program
-                   map<string,int> my_sym_tab;
+                   nodeMap tree;
+                   TreeNode* root = new TreeNode("", 0, tree);
+                   intVar iv;
+                   stringVar sv;
                    $$= $1;
-                   $1->evaluate_statement(my_sym_tab);
+                   $1->evaluate_statement(iv,sv,tree);
 }
 
-prog: statement  prog {$$ = new compound_statement($1,$2);}
+prog: statement  prog {$$ = new CompoundStatement($1,$2);}
     | {$$ = NULL;}
     ;
-statement: while_statement {$$ = $1;}
-         | assignment_statement {$$ = $1;}
-         | print_statement {$$ = $1;}
+statement: build_node_statement {$$ = $1;}
+         | for_statement {$$ = $1;}
          ;
-
-print_statement: TKPRINT integer_expression ';' {$$ = new print_statement($2);}
-               ;
-assignment_statement: TKID '=' integer_expression ';' { //cout << "TKID = " << $1 << endl;
-                                                        $$ = new assignment_statement($1, $3);}
-                    ;  
-
-while_statement: TKWHILE '(' boolean_expr ')' '{' prog '}' {$$ = new while_statement($3, $6);}
-               ;
-
-integer_expression: TKINT {//cout << "Integer: " << $1 << endl;
-		      $$ = new int_constant(atoi($1));}
-| TKID {//cout << "Identifier: " << $1 << endl; 
-		      $$= new variable($1); }
-                  | '-' integer_expression {$$=new neg_constant($2);}
-                  | integer_expression '+' integer_expression {$$=new plus_expr($1,$3);}
-                 
-                  | integer_expression '-' integer_expression {$$=new minus_expr($1,$3);}
-                  | integer_expression '*' integer_expression {$$=new mult_expr($1,$3);}
-                  | integer_expression '/' integer_expression {$$=new div_expr($1,$3);}
-                  | integer_expression '%' integer_expression {$$=new mod_expr($1,$3);}
-                  | '(' integer_expression ')' {$$ = $2;} 
-                  ;
-
-boolean_expr:  integer_expression '<' integer_expression {$$=new less_expr($1,$3);}
-|  integer_expression '>' integer_expression {$$ = new greater_expr($1,$3);}
-|  integer_expression TKEE integer_expression {$$= new ee_expr($1,$3); }
-|  integer_expression TKLE integer_expression {$$= new le_expr($1,$3); }
-|  integer_expression TKGE integer_expression {$$= new ge_expr($1,$3); }
+build_node_statement: TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' '}' {
+                            $$ = new BuildNodeStatement($5, $9, new StringConstant(""));
+}
+                    | TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' TKISCHILD '=' string_expression '}' {
+                            $$ = new BuildNodeStatement($5, $9, $13);
+}
+                    ;
+string_expression: TKSTRING { $$ = new StringConstant($1); }
+                 | number_expression { $$ = new StringOfNumber($1); }
+                 | string_expression '+' string_expression { $$ = new StringPlusExpression($1,$3); }
+                 | TKVAR { $$ = new StringVariable($1); }
+                 ;
+number_expression: TKINT { $$ = new NumberConstant(atoi($1)); }
+                 | TKVAR { $$ = new NumberVariable($1); }
+                 | number_expression '+' number_expression { $$ = new NumberPlusExpression($1, $3); }
+                 ;
+for_statement: TKFOR TKVAR TKIN '[' number_expression ':' number_expression ']' '{' in_statement '}' ';' {
+                    $$ = new NumberForStatement($2, $5, $7, $10);
+}
+             | TKFOR TKVAR TKIN '[' string_list ']' '{' in_statement '}' ';' {
+                $$ = new StringForStatement($2, $5, $8);
+             }
+             ;
+in_statement: build_node_statement in_statement { $$ = new CompoundStatement($1, $2); }
+            | { $$ = NULL; }
             ;
+string_list: string_expression { $$ = new StringList($1); }
+           | string_expression ',' string_list { $$ = new StringList($1, $3); }
+           ;
+
+
+
+
 %%
 #include "lex.yy.c"
 
