@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 class TreeNode {
@@ -36,3 +37,10 @@ class TreeNode {
         vector<TreeNode*> children;
 
 };
+
+void printTree(TreeNode* root){
+    cout << (root -> name) << "\n";
+    for (size_t i = 0; i < (root -> children).size(); i ++){
+        printTree(root -> children[i]);
+    }
+}

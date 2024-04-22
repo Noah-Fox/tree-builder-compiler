@@ -16,4 +16,5 @@ int main(){
     TreeNode* b = new TreeNode("b", 3, "root", nodeMap);
     TreeNode* c = new TreeNode("c", 4, "a", nodeMap);
 
+    printTree(root);
 }
