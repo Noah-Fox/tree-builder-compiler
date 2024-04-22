@@ -1,6 +1,6 @@
 %start start_var
-%token TKBNODE TKNAME TKWEIGHT TKSTRING TKNUM TKISCHILD TKFOR TKVAR TKIN
-%token { } = " ; [ ] : , +
+%token TKBNODE TKNAME TKWEIGHT TKSTRING TKNUM TKISCHILD TKFOR TKVAR TKINT
+%token '{' '}' '=' '"' ';' '[' ']' ':' ',' '+'
 
 
 %{
@@ -46,6 +46,7 @@ start_var : prog { // At this point, the
                    stringVar sv;
                    $$= $1;
                    $1->evaluate_statement(iv,sv,tree);
+                   printTree(root);
 }
 
 prog: statement  prog {$$ = new CompoundStatement($1,$2);}
@@ -70,10 +71,10 @@ number_expression: TKINT { $$ = new NumberConstant(atoi($1)); }
                  | TKVAR { $$ = new NumberVariable($1); }
                  | number_expression '+' number_expression { $$ = new NumberPlusExpression($1, $3); }
                  ;
-for_statement: TKFOR TKVAR TKIN '[' number_expression ':' number_expression ']' '{' in_statement '}' ';' {
+for_statement: TKFOR TKVAR TKINT '[' number_expression ':' number_expression ']' '{' in_statement '}' ';' {
                     $$ = new NumberForStatement($2, $5, $7, $10);
 }
-             | TKFOR TKVAR TKIN '[' string_list ']' '{' in_statement '}' ';' {
+             | TKFOR TKVAR TKINT '[' string_list ']' '{' in_statement '}' ';' {
                 $$ = new StringForStatement($2, $5, $8);
              }
              ;
