@@ -45,7 +45,7 @@ struct TreeNode {
 };
 
 void printTree(string rootName, map<string, TreeNode>& nodeMap){
-    cout << rootName << "\n";
+    cout << rootName << " " << nodeMap[rootName].weight << "\n";
     for (size_t i = 0; i < nodeMap[rootName].children.size(); i ++){
         printTree(nodeMap[rootName].children[i], nodeMap);
     }

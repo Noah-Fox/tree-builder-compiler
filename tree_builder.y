@@ -48,7 +48,10 @@ start_var : prog { // At this point, the
                    stringVar sv;
                    $$= $1;
                    $1->evaluate_statement(iv,sv,tree);
-                   printTree("PROGRAM_ROOT",tree);
+                   for (size_t i = 0; i < tree["PROGRAM_ROOT"].children.size(); i ++){
+                    printTree(tree["PROGRAM_ROOT"].children[i],tree);
+                   }
+
 }
 
 prog: statement  prog {$$ = new CompoundStatement($1,$2);}

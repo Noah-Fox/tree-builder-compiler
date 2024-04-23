@@ -8,12 +8,12 @@ for i in [1:10] {
   weight = i+3;
   isachildof ="root";
   };
-}
+};
 for i in [1:5] {
   buildnode {
   name = "B"+i;
   weight = i+2;
   isachildof ="A"+i;
   };
-}
+};
 
