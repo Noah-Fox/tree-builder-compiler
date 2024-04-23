@@ -72,7 +72,13 @@ class StringExpression {
 
 class StringConstant: public StringExpression {
     public:
-        StringConstant(string val){ savedVal = val; }
+        StringConstant(string val){ 
+            savedVal = val; 
+            bool inQuotes = (savedVal[0] == '"' && savedVal[savedVal.length()-1] == '"');
+            if (inQuotes){
+                savedVal = savedVal.substr(1,savedVal.length()-2);
+            }
+        }
         virtual string evaluate_expression(intVar& iv, stringVar& sv, nodeMap& tree){ return savedVal; }
 
     private:
@@ -86,6 +92,9 @@ class StringVariable: public StringExpression {
         virtual string evaluate_expression(intVar& iv, stringVar& sv, nodeMap& tree){
             if (sv.first == varId){
                 return sv.second;
+            }
+            else if (iv.first == varId){
+                return to_string(iv.second);
             }
             else {
                 return "";
@@ -114,7 +123,8 @@ class StringOfNumber: public StringExpression {
     public:
         StringOfNumber(NumberExpression* n){ numExpr = n; }
         virtual string evaluate_expression(intVar& iv, stringVar& sv, nodeMap& tree){
-            return to_string(numExpr -> evaluate_expression(iv, sv, tree));
+            string s = to_string(numExpr -> evaluate_expression(iv, sv, tree));
+            return s;
         }
 
     private:
