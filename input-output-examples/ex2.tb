@@ -1,6 +1,8 @@
 buildnode {
   name = "root";
-  weight = 5;
+  weight = 
+  5
+  ;
 };
 buildnode {
   name = "A";

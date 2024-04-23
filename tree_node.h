@@ -4,6 +4,9 @@
  * Contains class for a node in a tree
 */
 
+#ifndef TREENODE
+#define TREENODE
+
 #include <string>
 #include <map>
 #include <vector>
@@ -48,4 +51,6 @@ void printTree(string rootName, map<string, TreeNode>& nodeMap){
     }
 }
 
+
+#endif
 

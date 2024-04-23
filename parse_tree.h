@@ -17,7 +17,7 @@ using namespace std;
 
 typedef pair<string,int> intVar;
 typedef pair<string,string> stringVar;
-typedef map<string,TreeNode*> nodeMap;
+typedef map<string,TreeNode> nodeMap;
 
 class NumberExpression {
     public:
