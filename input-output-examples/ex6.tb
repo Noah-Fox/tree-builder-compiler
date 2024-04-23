@@ -9,3 +9,4 @@ for i in [1:5]{
         isachildof="root";
     };
 };
+buildnode{name="X"; weight=1; isachildof="a1";};

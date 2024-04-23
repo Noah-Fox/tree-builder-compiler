@@ -9,11 +9,12 @@ for i in [1:10] {
   isachildof = "root";
   };
 };
-for i in [red,green,blue] {
+for i in ["red","green","blue"] {
   buildnode {
     name = i;
     weight = 7;
     isachildof = "A1";
   };
 };
+buildnode {name="X"; weight=1; isachildof="A1";};
 
