@@ -1,5 +1,5 @@
 %start start_var
-%token TKBNODE TKNAME TKWEIGHT TKSTRING TKNUM TKISCHILD TKFOR TKVAR TKINT TKIN
+%token TKBNODE TKNAME TKWEIGHT TKSTRING TKNUM TKISCHILD TKFOR TKVAR TKIN
 %token '{' '}' '=' '"' ';' '[' ']' ':' ',' '+'
 
 
@@ -31,7 +31,7 @@ extern void yyerror(char *String);
 
 %}
 
-%type <s_val> TKSTRING TKVAR TKINT
+%type <s_val> TKSTRING TKVAR TKNUM
 %type <num_ptr> number_expression
 %type <string_ptr> string_expression 
 %type <string_list> string_list
@@ -69,14 +69,14 @@ string_expression: TKSTRING { $$ = new StringConstant($1); }
                  | string_expression '+' string_expression { $$ = new StringPlusExpression($1,$3); }
                  | TKVAR { $$ = new StringVariable($1); }
                  ;
-number_expression: TKINT { $$ = new NumberConstant(atoi($1)); }
+number_expression: TKNUM { $$ = new NumberConstant(atoi($1)); }
                  | TKVAR { $$ = new NumberVariable($1); }
                  | number_expression '+' number_expression { $$ = new NumberPlusExpression($1, $3); }
                  ;
-for_statement: TKFOR TKVAR TKINT '[' number_expression ':' number_expression ']' '{' in_statement '}' ';' {
+for_statement: TKFOR TKVAR TKIN '[' number_expression ':' number_expression ']' '{' in_statement '}' ';' {
                     $$ = new NumberForStatement(new NumberVariable($2), $5, $7, $10);
 }
-             | TKFOR TKVAR TKINT '[' string_list ']' '{' in_statement '}' ';' {
+             | TKFOR TKVAR TKIN '[' string_list ']' '{' in_statement '}' ';' {
                 $$ = new StringForStatement(new StringVariable($2), $5, $8);
              }
              ;
