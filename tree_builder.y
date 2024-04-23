@@ -41,12 +41,12 @@ start_var : prog { // At this point, the
                    // the program is done --- let's evaluate the
                    // program
                    nodeMap tree;
-                   TreeNode* root = new TreeNode("", 0, tree);
+                   TreeNode root("PROGRAM_ROOT", 0, tree);
                    intVar iv;
                    stringVar sv;
                    $$= $1;
                    $1->evaluate_statement(iv,sv,tree);
-                   printTree(root);
+                   printTree("PROGRAM_ROOT",tree);
 }
 
 prog: statement  prog {$$ = new CompoundStatement($1,$2);}
@@ -56,7 +56,7 @@ statement: build_node_statement {$$ = $1;}
          | for_statement {$$ = $1;}
          ;
 build_node_statement: TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' '}' ';' {
-                            $$ = new BuildNodeStatement($5, $9, new StringConstant(""));
+                            $$ = new BuildNodeStatement($5, $9, new StringConstant("PROGRAM_ROOT"));
 }
                     | TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' TKISCHILD '=' string_expression ';' '}' ';' {
                             $$ = new BuildNodeStatement($5, $9, $13);
@@ -72,10 +72,10 @@ number_expression: TKINT { $$ = new NumberConstant(atoi($1)); }
                  | number_expression '+' number_expression { $$ = new NumberPlusExpression($1, $3); }
                  ;
 for_statement: TKFOR TKVAR TKINT '[' number_expression ':' number_expression ']' '{' in_statement '}' ';' {
-                    $$ = new NumberForStatement($2, $5, $7, $10);
+                    $$ = new NumberForStatement(new NumberVariable($2), $5, $7, $10);
 }
              | TKFOR TKVAR TKINT '[' string_list ']' '{' in_statement '}' ';' {
-                $$ = new StringForStatement($2, $5, $8);
+                $$ = new StringForStatement(new StringVariable($2), $5, $8);
              }
              ;
 in_statement: build_node_statement in_statement { $$ = new CompoundStatement($1, $2); }
