@@ -55,10 +55,10 @@ prog: statement  prog {$$ = new CompoundStatement($1,$2);}
 statement: build_node_statement {$$ = $1;}
          | for_statement {$$ = $1;}
          ;
-build_node_statement: TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' '}' {
+build_node_statement: TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' '}' ';' {
                             $$ = new BuildNodeStatement($5, $9, new StringConstant(""));
 }
-                    | TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' TKISCHILD '=' string_expression '}' {
+                    | TKBNODE '{' TKNAME '=' string_expression ';' TKWEIGHT '=' number_expression ';' TKISCHILD '=' string_expression ';' '}' ';' {
                             $$ = new BuildNodeStatement($5, $9, $13);
 }
                     ;
