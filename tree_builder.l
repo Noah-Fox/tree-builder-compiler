@@ -43,7 +43,7 @@ for                          {yylval.s_val = strdup(yytext);
 in                           {yylval.s_val = strdup(yytext);
                                 return TKIN;}
 \"[^\"]*\"                     {yylval.s_val = strdup(yytext);
-                                return TKSTRING}
+                                return TKSTRING; }
 [ \t\n\f]                   {ACC(yytext[0]); /* Remove tabs/spaces/newlines */}  
 [0-9][0-9]*                 {yylval.s_val = strdup(yytext);
                                 return TKNUM;}

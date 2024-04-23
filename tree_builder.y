@@ -1,5 +1,5 @@
 %start start_var
-%token TKBNODE TKNAME TKWEIGHT TKSTRING TKNUM TKISCHILD TKFOR TKVAR TKINT
+%token TKBNODE TKNAME TKWEIGHT TKSTRING TKNUM TKISCHILD TKFOR TKVAR TKINT TKIN
 %token '{' '}' '=' '"' ';' '[' ']' ':' ',' '+'
 
 
@@ -14,9 +14,10 @@ using namespace std;
 %}
 
 %union {
-  char* string_val;
+  char* s_val;
   NumberExpression *num_ptr;
   StringExpression *string_ptr;
+  StringList *string_list;
   Statement *s_ptr;
   CompoundStatement *c_ptr;
 }
@@ -30,9 +31,10 @@ extern void yyerror(char *String);
 
 %}
 
-%type <string_val> TKSTRING TKVAR TKINT
+%type <s_val> TKSTRING TKVAR TKINT
 %type <num_ptr> number_expression
-%type <string_ptr> string_expression string_list
+%type <string_ptr> string_expression 
+%type <string_list> string_list
 %type <s_ptr> statement for_statement build_node_statement
 %type <c_ptr> prog start_var in_statement
 
