@@ -47,14 +47,14 @@ struct TreeNode {
 
 void makeTree(string rootName, map<string, TreeNode>& nodeMap){
         cout<< "(<" << nodeMap[rootName].name << "," << nodeMap[rootName].weight << ">";
-        for (size_t i = 0; i < nodeMap[rootName].children.size(); i ++){
+        for (size_t i = nodeMap[rootName].children.size(); i > 0; i --){
             cout << ",";
-            makeTree(nodeMap[nodeMap[rootName].children[i]].name, nodeMap);
+            makeTree(nodeMap[nodeMap[rootName].children[i-1]].name, nodeMap);
 
         }
         cout<<")";       
 }
-    
+
 
 #endif
 
