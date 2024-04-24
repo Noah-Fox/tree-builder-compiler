@@ -38,10 +38,10 @@ weight                       {yylval.s_val = strdup(yytext);
                                 return TKWEIGHT;}
 isachildof                   {yylval.s_val = strdup(yytext);
                                 return TKISCHILD;}
-for                          {yylval.s_val = strdup(yytext);
-                                return TKFOR;}
 in                           {yylval.s_val = strdup(yytext);
                                 return TKIN;}
+for                          {yylval.s_val = strdup(yytext);
+                                return TKFOR;}
 \"[^\"]*\"                     {yylval.s_val = strdup(yytext);
                                 return TKSTRING; }
 [ \t\n\f]                   {ACC(yytext[0]); /* Remove tabs/spaces/newlines */}  

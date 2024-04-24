@@ -49,7 +49,8 @@ start_var : prog { // At this point, the
                    $$= $1;
                    $1->evaluate_statement(iv,sv,tree);
                    for (size_t i = 0; i < tree["PROGRAM_ROOT"].children.size(); i ++){
-                    printTree(tree["PROGRAM_ROOT"].children[i],tree);
+                    makeTree(tree["PROGRAM_ROOT"].children[i],tree);
+                    cout << "\n";
                    }
 
 }

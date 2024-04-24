@@ -16,5 +16,4 @@ for i in ["red","green","blue"] {
     isachildof = "A1";
   };
 };
-buildnode {name="X"; weight=1; isachildof="A1";};
 

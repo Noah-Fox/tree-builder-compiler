@@ -218,7 +218,7 @@ class NumberForStatement: public Statement {
             numVar -> assignVar(iv);
             int start = startNum -> evaluate_expression(iv,sv,tree);
             int end = endNum -> evaluate_expression(iv,sv,tree);
-            for (int i = start; i < end; i ++){
+            for (int i = start; i <= end; i ++){
                 iv.second = i;
                 loopStatement -> evaluate_statement(iv,sv,tree);
             }

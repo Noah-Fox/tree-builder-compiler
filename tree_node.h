@@ -44,16 +44,13 @@ struct TreeNode {
     vector<string> children;
 };
 
-void printTree(string rootName, map<string, TreeNode>& nodeMap){
-    cout << rootName << " " << nodeMap[rootName].weight << "\n";
-    for (size_t i = 0; i < nodeMap[rootName].children.size(); i ++){
-        printTree(nodeMap[rootName].children[i], nodeMap);
-    }
-}
+
 void makeTree(string rootName, map<string, TreeNode>& nodeMap){
-        cout<< "(<" << nodeMap[rootName].name << "," << nodeMap[rootName].weight << ">,";
+        cout<< "(<" << nodeMap[rootName].name << "," << nodeMap[rootName].weight << ">";
         for (size_t i = 0; i < nodeMap[rootName].children.size(); i ++){
+            cout << ",";
             makeTree(nodeMap[nodeMap[rootName].children[i]].name, nodeMap);
+
         }
         cout<<")";       
 }
