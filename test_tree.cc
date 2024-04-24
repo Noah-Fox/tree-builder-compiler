@@ -16,5 +16,6 @@ int main(){
     TreeNode b("b", 3, "root", nodeMap);
     TreeNode c("c", 4, "a", nodeMap);
 
-    printTree("root", nodeMap);
+    makeTree("root", nodeMap);
+
 }
