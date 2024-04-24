@@ -1,6 +1,11 @@
 
 %{
 
+/**
+ * Lexical analysis
+ * Authors: Noah Fox and Kaden Papadatos
+*/
+
 #include <iostream>
 #include <vector>
 #include <list>

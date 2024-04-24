@@ -4,6 +4,12 @@
 
 
 %{
+
+/**
+ * Syntactic analysis 
+ * Authors: Noah Fox and Kaden Papadatos
+*/
+
 #include <map>
 #include <string>
 #include "parse_tree.h"
