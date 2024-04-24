@@ -47,5 +47,12 @@ void printTree(string rootName, map<string, TreeNode>& nodeMap){
         printTree(nodeMap[rootName].children[i], nodeMap);
     }
 }
-
+void makeTree(string rootName, map<string, TreeNode>& nodeMap){
+        cout<< "(<" << nodeMap[rootName].name << "," << nodeMap[rootName].weight << ">,";
+        for (size_t i = 0; i < nodeMap[rootName].children.size(); i ++){
+            makeTree(nodeMap[nodeMap[rootName].children[i]].name, nodeMap);
+        }
+        cout<<")";       
+}
+    
 
